@@ -8,6 +8,11 @@ public class MatrizSimetrica {
 	private int ordenMatriz;
 	private int dimensionVector;
 
+	/**
+	 * Constructor de la matriz simetrica
+	 * 
+	 * @param n Orden de la matriz
+	 */
 	public MatrizSimetrica(int n) {
 		this.ordenMatriz = n;
 		// La dimension del vector
