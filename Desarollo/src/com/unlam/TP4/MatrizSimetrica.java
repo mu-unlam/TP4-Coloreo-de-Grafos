@@ -4,6 +4,7 @@ public class MatrizSimetrica {
 
 	// Almacena las aristas
 	// Y si hay o no camino en cada uno
+
 	private boolean[] matrizSimetrica;
 	private int ordenMatriz;
 	private int dimensionVector;
@@ -38,12 +39,24 @@ public class MatrizSimetrica {
 		return matrizSimetrica[pos];
 	}
 
-	// Dada una fila y columna, obtengo el indice
-	// Esto luego lo uso para saber si hay arista o no
+	/**
+	 * Dada una fila y columna, obtengo el indice. Esto luego lo uso para saber si
+	 * hay arista o no
+	 * 
+	 * @param fil
+	 * @param col
+	 * @return
+	 */
 	public int getIndice(int fil, int col) {
 		return (int) (fil * this.ordenMatriz + col - (Math.pow(fil, 2) + 3 * fil + 2) / 2);
 	}
 
+	/**
+	 * Setea el indice
+	 * 
+	 * @param fil
+	 * @param col
+	 */
 	public void setIndice(int fil, int col) {
 		matrizSimetrica[fil * this.ordenMatriz + col - (fil * fil + 3 * fil + 2) / 2] = true;
 	}

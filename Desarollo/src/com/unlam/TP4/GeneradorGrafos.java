@@ -4,9 +4,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class GeneradorGrafos {
+	private final static String PATH_SALIDA = "../Grafos Generados/";
+
 	/**
 	 * Calcula el grado minimo y maximo del grafo
 	 * 
@@ -15,8 +18,6 @@ public class GeneradorGrafos {
 	 * @throws IOException
 	 * @return void
 	 */
-	private final static String PATH_SALIDA = "../Grafos Generados/";
-
 	public static void generarGrafoAleatorioConProbabilidad(int cantNodos, double probabilidadOcurrencia)
 			throws IOException {
 		ArrayList<ParNodos> arrParesDeNodos = new ArrayList<ParNodos>();
@@ -102,25 +103,17 @@ public class GeneradorGrafos {
 	}
 
 	/**
+	 * 
 	 * Escribe un grafo en el archivo segun el formato de la consigna
 	 * 
 	 * @param path                 Ruta del archivo que se escribe
-	 * 
 	 * @param array                Contiene las relaciones entre nodos
-	 * 
 	 * @param cantNodos            cantidad de nodos
-	 * 
 	 * @param cantAristas          contiene la cantidad de aristas
-	 * 
 	 * @param porcentajeAdyacencia homonimo
-	 * 
 	 * @param gradoMaximo
-	 * 
 	 * @param gradoMinimo
-	 * 
 	 * @throws IOException en caso de ocurrir un error con el archivo
-	 * 
-	 * @return void
 	 */
 	private static void escribirGrafoEnArchivo(String path, ArrayList<ParNodos> array, int cantNodos, int cantAristas,
 			double porcentajeAdyacencia, int gradoMaximo, int gradoMinimo) throws IOException {
@@ -154,4 +147,50 @@ public class GeneradorGrafos {
 		}
 
 	}
+
+	/**
+	 * Generador de grafo aleatorio con porcentaje de adyacencia
+	 * 
+	 * @param cantNodos  cantidad de nodos
+	 * @param porcentaje
+	 * @throws IOException
+	 * @return void
+	 */
+	public static void generarGrafoAleatorioConPorcentajeDeAdyacencia(int cantNodos, double porcentaje) throws IOException {
+		ArrayList<ParNodos> arrParesDeNodos = new ArrayList<ParNodos>();
+		ArrayList<RandomParNodos> arrParNodosRandom = new ArrayList<RandomParNodos>();
+		Random random = new Random();
+		// Calculo como hice anteriormente la cantidad maxima de aristas
+		int cantMaximaAristas = ((cantNodos * (cantNodos - 1)) / 2);
+		int cantAristas = 0;
+
+		// Voy creando pares random de aristas
+		for (int i = 0; i < cantNodos - 1; i++) {
+			for (int j = i + 1; j < cantNodos; j++) {
+				if (i < j)
+					arrParNodosRandom.add(new RandomParNodos(new ParNodos(i, j), random.nextDouble()));
+				else
+					arrParNodosRandom.add(new RandomParNodos(new ParNodos(j, i), random.nextDouble()));
+
+			}
+		}
+
+		Collections.sort(arrParNodosRandom);
+
+		for (int i = 0; i < cantMaximaAristas * porcentaje; i++) {
+			arrParesDeNodos.add(arrParNodosRandom.get(i).getNodos());
+			cantAristas++;
+		}
+
+		// Dada las aristas que fui generando, y la cantidad de nodos, voy a calcular su
+		// grado minimo y su grado maximo
+		// Esto lo almacenare en un parNodos, ya que es efectivamente el objeto que
+		// necesito
+		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
+		String path = PATH_SALIDA + "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + cantNodos + "_"
+				+ String.format("%.2f", porcentaje) + ".txt";
+		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentaje, grados.getNodo1(),
+				grados.getNodo2());
+	}
+
 }

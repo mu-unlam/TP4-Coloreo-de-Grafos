@@ -5,6 +5,12 @@ public class ParNodos {
 	private int nodo1;
 	private int nodo2;
 
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param n1 Nodo 1
+	 * @param n2 Nodo 2
+	 */
 	public ParNodos(int n1, int n2) {
 		this.nodo1 = n1;
 		this.nodo2 = n2;
