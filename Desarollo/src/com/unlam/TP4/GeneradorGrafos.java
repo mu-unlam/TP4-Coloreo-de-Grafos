@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import com.unlam.TP4.nodos.Nodo;
 import com.unlam.TP4.nodos.ParNodos;
 import com.unlam.TP4.nodos.RandomParNodos;
 
 public class GeneradorGrafos {
-	private final static String PATH_SALIDA = "../Grafos Generados/";
 
 	/**
 	 * Calcula el grado minimo y maximo del grafo
@@ -28,8 +28,7 @@ public class GeneradorGrafos {
 		// Mi cantidad maxima de aristas
 		// Si tengo 6 nodos, el numero maximo es (6*5)/2 = 15 aristas
 		// Ya que no tengo en cuenta las duplicadas
-		int cantMaximaAristas = ((cantNodos * (cantNodos - 1)) / 2);
-		int cantAristas = 0;
+		int cantMaximaAristas = ((cantNodos * (cantNodos - 1)) / 2), cantAristas = 0;
 
 		// Complejidad O(N^2)
 		for (int i = 0; i < cantNodos - 1; i++) {
@@ -39,9 +38,9 @@ public class GeneradorGrafos {
 				if (random.nextFloat() < probabilidadOcurrencia) {
 
 					if (i < j) {
-						arrParesDeNodos.add(new ParNodos(i, j));
+						arrParesDeNodos.add(new ParNodos(new Nodo(i), new Nodo(j)));
 					} else {
-						arrParesDeNodos.add(new ParNodos(j, i));
+						arrParesDeNodos.add(new ParNodos(new Nodo(j), new Nodo(i)));
 					}
 
 					// Tengo una arista más
@@ -56,7 +55,7 @@ public class GeneradorGrafos {
 		// necesito
 		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
 		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
-		String path = PATH_SALIDA + "GRAFO_ALEATORIO_PROBABILISTICO_" + cantNodos + "_" + probabilidadOcurrencia
+		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PROBABILISTICO_" + cantNodos + "_" + probabilidadOcurrencia
 				+ ".txt";
 
 		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
@@ -72,11 +71,7 @@ public class GeneradorGrafos {
 	 */
 	private static ParNodos calcularGrado(ArrayList<ParNodos> arrayAristas, int cantNodos) {
 		int[] grados = new int[cantNodos];
-		int gradoMaximo = 0;
-		// Para hallar el minimo, pongo el maximo valor posible
-		int gradoMinimo = Integer.MAX_VALUE;
-		int max = 0;
-		int min = 0;
+		int gradoMaximo = 0, gradoMinimo = Integer.MAX_VALUE, max = 0, min = 0;
 
 		for (int i = 0; i < cantNodos; i++) {
 			grados[i] = 0;
@@ -101,8 +96,14 @@ public class GeneradorGrafos {
 				gradoMinimo = min;
 			}
 		}
+		Nodo nodo1 = new Nodo(-1);
+		nodo1.setGrado(gradoMaximo);
+
+		Nodo nodo2 = new Nodo(-1);
+		nodo2.setGrado(gradoMinimo);
+
 		// Luego de recorrer todos los nodos, ya tengo mi gradoMaximo y mi GradoMinimo
-		return new ParNodos(gradoMaximo, gradoMinimo);
+		return new ParNodos(nodo1, nodo2);
 	}
 
 	/**
@@ -136,9 +137,9 @@ public class GeneradorGrafos {
 		buffer.newLine();
 
 		for (int i = 0; i < array.size(); i++) {
-			buffer.write(String.valueOf(array.get(i).getNodo1()));
+			buffer.write(String.valueOf(array.get(i).getNodo1().getNroNodo()));
 			buffer.write(" ");
-			buffer.write(String.valueOf(array.get(i).getNodo2()));
+			buffer.write(String.valueOf(array.get(i).getNodo2().getNroNodo()));
 			buffer.newLine();
 		}
 
@@ -165,16 +166,17 @@ public class GeneradorGrafos {
 		ArrayList<RandomParNodos> arrParNodosRandom = new ArrayList<RandomParNodos>();
 		Random random = new Random();
 		// Calculo como hice anteriormente la cantidad maxima de aristas
-		int cantMaximaAristas = ((cantNodos * (cantNodos - 1)) / 2);
-		int cantAristas = 0;
+		int cantMaximaAristas = ((cantNodos * (cantNodos - 1)) / 2), cantAristas = 0;
 
 		// Voy creando pares random de aristas
 		for (int i = 0; i < cantNodos - 1; i++) {
 			for (int j = i + 1; j < cantNodos; j++) {
 				if (i < j)
-					arrParNodosRandom.add(new RandomParNodos(new ParNodos(i, j), random.nextDouble()));
+					arrParNodosRandom
+							.add(new RandomParNodos(new ParNodos(new Nodo(i), new Nodo(j)), random.nextDouble()));
 				else
-					arrParNodosRandom.add(new RandomParNodos(new ParNodos(j, i), random.nextDouble()));
+					arrParNodosRandom
+							.add(new RandomParNodos(new ParNodos(new Nodo(j), new Nodo(i)), random.nextDouble()));
 
 			}
 		}
@@ -191,7 +193,7 @@ public class GeneradorGrafos {
 		// Esto lo almacenare en un parNodos, ya que es efectivamente el objeto que
 		// necesito
 		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
-		String path = PATH_SALIDA + "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + cantNodos + "_"
+		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + cantNodos + "_"
 				+ String.format("%.2f", porcentaje) + ".txt";
 		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentaje, grados.getNodo1().getGrado(),
 				grados.getNodo2().getGrado());
@@ -214,8 +216,7 @@ public class GeneradorGrafos {
 		Random generadorRandoms = new Random();
 
 		// Calculo como siempre el numero maximo de aristas posible
-		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2;
-		int cantAristas = 0;
+		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2, cantAristas = 0;
 
 		// Nunca se puede tener mas conjuntos que nodos, por lo que hago un exit.
 		if (cantConjuntos > cantNodos) {
@@ -250,9 +251,9 @@ public class GeneradorGrafos {
 
 					// Determino el sentido del nodo
 					if (i < j) {
-						arrParesDeNodos.add(new ParNodos(i, j));
+						arrParesDeNodos.add(new ParNodos(new Nodo(i), new Nodo(j)));
 					} else {
-						arrParesDeNodos.add(new ParNodos(j, i));
+						arrParesDeNodos.add(new ParNodos(new Nodo(j), new Nodo(i)));
 					}
 
 					// Incremento la cantidad de aristas
@@ -263,7 +264,7 @@ public class GeneradorGrafos {
 
 		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
 		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
-		String path = PATH_SALIDA + "GRAFO_" + cantConjuntos + "PARTITO.txt";
+		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + cantNodos + "_NODOS__GRAFO_" + cantConjuntos + "PARTITO.txt";
 
 		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
 				grados.getNodo1().getGrado(), grados.getNodo2().getGrado());

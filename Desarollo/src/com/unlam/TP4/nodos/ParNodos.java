@@ -8,12 +8,12 @@ public class ParNodos {
 	/**
 	 * Constructor de la clase
 	 * 
-	 * @param n1 Nodo 1
-	 * @param n2 Nodo 2
+	 * @param nodo1 Nodo 1
+	 * @param nodo2 Nodo 2
 	 */
-	public ParNodos(int n1, int n2) {
-		this.nodo1 = new Nodo(n1);
-		this.nodo2 = new Nodo(n2);
+	public ParNodos(Nodo nodo1, Nodo nodo2) {
+		this.nodo1 = nodo1;
+		this.nodo2 = nodo2;
 	}
 
 	public Nodo getNodo1() {

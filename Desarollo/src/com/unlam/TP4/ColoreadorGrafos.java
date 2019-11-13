@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import com.unlam.TP4.nodos.Nodo;
@@ -94,9 +95,7 @@ public class ColoreadorGrafos {
 	 */
 	private void colorear() {
 		// Inicializo las variables
-		int color = 1;
-		int nodo;
-		int indice;
+		int color = 1, nodo, indice;
 		this.colorMax = 1;
 
 		// Arranco mi array de nodos con color en 0
@@ -161,6 +160,7 @@ public class ColoreadorGrafos {
 	 */
 	public void coloreoSecuencialAleatorio(int cantEjecuciones) throws IOException {
 		int nroCorrida = 0;
+		long tiempoInicial = 0, tiempoFinal = 0;
 
 		// Si no tengo nodos, debo salir. No hay nada que evaluar.
 		if (this.nodos.size() == 0) {
@@ -171,8 +171,11 @@ public class ColoreadorGrafos {
 		for (int i = 0; i < cantEjecuciones; i++) {
 			// Permuto los nodos
 			Collections.shuffle(this.nodos);
+			
+			tiempoInicial = System.nanoTime();
 			// Llamo al nodo que asignara los colores
 			this.colorear();
+			tiempoFinal = System.nanoTime();
 
 			if (this.colorMax < this.mejorColor || this.mejorColor == 0) {
 				// Seteo la cantidad de colores (siempre estoy buscando la menor posible)
@@ -191,7 +194,8 @@ public class ColoreadorGrafos {
 		// Paso a la ultima etapa, donde escribo el archivo
 		this.escribirSolucion("ALGORITMO_SECUENCIAL");
 		System.out.print("SECUENCIAL\t");
-		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida);
+		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
+				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
 
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
@@ -210,8 +214,59 @@ public class ColoreadorGrafos {
 	 * Es decir, ordenamos de forma que d(V1) >= d(V2) >= ... >= d(Vn).
 	 * 
 	 * @param cantEjecuciones
+	 * @throws IOException
 	 */
-	public void coloreoWelshPowell(int cantEjecuciones) {
+	public void coloreoWelshPowell(int cantEjecuciones) throws IOException {
+		int nroCorrida = 0;
+		long tiempoInicial = 0, tiempoFinal = 0;
+		// Si no tengo nodos, debo salir. No hay nada que evaluar.
+		if (this.nodos.size() == 0) {
+			this.escribirSolucion("ALGORITMO_WELSH_POWELL");
+			return;
+		}
+
+		for (int i = 0; i < cantEjecuciones; i++) {
+			// Ordeno los nodos de menor a mayor
+			Collections.sort(this.nodos, new Comparator<Nodo>() {
+				@Override
+				public int compare(Nodo nodo1, Nodo nodo2) {
+					return nodo2.getGrado() - nodo1.getGrado();
+				}
+			});
+
+			tiempoInicial = System.nanoTime();
+			// Llamo al nodo que asignara los colores
+			this.colorear();
+			tiempoFinal = System.nanoTime();
+
+			if (this.colorMax < this.mejorColor || this.mejorColor == 0) {
+				// Seteo la cantidad de colores (siempre estoy buscando la menor posible)
+				this.mejorColor = this.colorMax;
+				// Me guardo en que ejecucion estoy, ESTO SERA UTIL PARA EL ANALISIS ESTADISTICO
+				nroCorrida = i + 1;
+				// Me guardo la solucion, para mostrar como quedaria
+				this.solucion = this.nodosColoreados.clone();
+			}
+
+			// En este vector, voy seteando en cada indice lo que mas se repite
+			// Sirve para el analisis estadistico
+			this.mejoresColores[this.colorMax - 1]++;
+		}
+
+		// Paso a la ultima etapa, donde escribo el archivo
+		this.escribirSolucion("ALGORITMO_WELSH_POWELL");
+		System.out.print("WELSH_POWELL\t");
+		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
+				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
+
+		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
+		// variables
+		// Las mismas deberian ser locales para no tener que hacer esto
+		// TODO si queda tiempo
+		this.mejorColor = 0;
+		for (int i = 0; i < this.cantNodos; i++) {
+			this.mejoresColores[i] = 0;
+		}
 	}
 
 	/**
@@ -223,8 +278,60 @@ public class ColoreadorGrafos {
 	 * examinando los vértices de menor grado y eliminándolos del grafo
 	 * 
 	 * @param cantEjecuciones
+	 * @throws IOException
 	 */
-	public void coloreoMatula(int cantEjecuciones) {
+	public void coloreoMatula(int cantEjecuciones) throws IOException {
+		int nroCorrida = 0;
+		long tiempoInicial = 0, tiempoFinal = 0;
+
+		// Si no tengo nodos, debo salir. No hay nada que evaluar.
+		if (this.nodos.size() == 0) {
+			this.escribirSolucion("ALGORITMO_MATULA_MARBLE_ISAACSON");
+			return;
+		}
+
+		for (int i = 0; i < cantEjecuciones; i++) {
+			// Ordeno los nodos de mayor a menor
+			Collections.sort(this.nodos, new Comparator<Nodo>() {
+				@Override
+				public int compare(Nodo nodo1, Nodo nodo2) {
+					return nodo1.getGrado() - nodo2.getGrado();
+				}
+			});
+			
+			tiempoInicial = System.nanoTime();
+			// Llamo al nodo que asignara los colores
+			this.colorear();
+			tiempoFinal = System.nanoTime();
+
+			if (this.colorMax < this.mejorColor || this.mejorColor == 0) {
+				// Seteo la cantidad de colores (siempre estoy buscando la menor posible)
+				this.mejorColor = this.colorMax;
+				// Me guardo en que ejecucion estoy, ESTO SERA UTIL PARA EL ANALISIS ESTADISTICO
+				nroCorrida = i + 1;
+				// Me guardo la solucion, para mostrar como quedaria
+				this.solucion = this.nodosColoreados.clone();
+			}
+
+			// En este vector, voy seteando en cada indice lo que mas se repite
+			// Sirve para el analisis estadistico
+			this.mejoresColores[this.colorMax - 1]++;
+		}
+
+		// Paso a la ultima etapa, donde escribo el archivo
+		this.escribirSolucion("ALGORITMO_MATULA_MARBLE_ISAACSON");
+		System.out.print("MATULA_MARBLE_ISAACSON\t");
+		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
+				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
+
+		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
+		// variables
+		// Las mismas deberian ser locales para no tener que hacer esto
+		// TODO si queda tiempo
+		this.mejorColor = 0;
+		for (int i = 0; i < this.cantNodos; i++) {
+			this.mejoresColores[i] = 0;
+		}
 	}
 
 	/**
@@ -233,8 +340,8 @@ public class ColoreadorGrafos {
 	 * @throws IOException
 	 */
 	private void escribirSolucion(String algoritmoElegido) throws IOException {
-		FileWriter file = new FileWriter("COLOREO" + "_" + algoritmoElegido + "_" + this.cantNodos + "_"
-				+ String.format("%.2f", this.porcentajeAdyacencia) + ".out");
+		FileWriter file = new FileWriter(Main.PATH_SALIDA_GRAFOS_COLOREADOS + "COLOREO" + "_" + algoritmoElegido + "_" + this.cantNodos
+				+ "_" + String.format("%.2f", this.porcentajeAdyacencia) + ".out");
 		BufferedWriter buffer = new BufferedWriter(file);
 
 		buffer.write(String.valueOf(this.cantNodos));
