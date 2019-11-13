@@ -156,7 +156,8 @@ public class GeneradorGrafos {
 	 * @throws IOException
 	 * @return void
 	 */
-	public static void generarGrafoAleatorioConPorcentajeDeAdyacencia(int cantNodos, double porcentaje) throws IOException {
+	public static void generarGrafoAleatorioConPorcentajeDeAdyacencia(int cantNodos, double porcentaje)
+			throws IOException {
 		ArrayList<ParNodos> arrParesDeNodos = new ArrayList<ParNodos>();
 		ArrayList<RandomParNodos> arrParNodosRandom = new ArrayList<RandomParNodos>();
 		Random random = new Random();
@@ -193,4 +194,75 @@ public class GeneradorGrafos {
 				grados.getNodo2());
 	}
 
+	/**
+	 * Generador para grafos N-Partitos
+	 * 
+	 * @param cantNodos     Cantidad de nodos
+	 * @param cantConjuntos Cantidad de conjuntos
+	 * @throws IOException
+	 */
+	public static void generarGrafoNPartito(int cantNodos, int cantConjuntos) throws IOException {
+		// Array que tiene las aristas (entre un nodo A y otro nodo B)
+		ArrayList<ParNodos> arrParesDeNodos = new ArrayList<ParNodos>();
+
+		// Voy a crear un array de conjuntos, con el fin de
+		ArrayList<Integer> conjuntos = new ArrayList<Integer>();
+
+		Random generadorRandoms = new Random();
+
+		// Calculo como siempre el numero maximo de aristas posible
+		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2;
+		int cantAristas = 0;
+
+		// Nunca se puede tener mas conjuntos que nodos, por lo que hago un exit.
+		if (cantConjuntos > cantNodos) {
+			System.out.println("La cantidad de nodos debe ser mayor o igual a la cantidad de conjuntos");
+			System.exit(1);
+		}
+
+		// Voy a agregar los distintos posibles indices de conjuntos a un arraylist
+		for (int i = 0; i < cantConjuntos; i++) {
+			conjuntos.add(i);
+		}
+
+		// Una vez hecho esto, necesito categorizar a los N (cantNodos-cantConjuntos)
+		// nodos restantes
+		// De esta forma, realizare los grupos
+		// Por ejemplo, si tengo 6 nodos y 3 conjuntos
+		// mi tope en el for sera 3, y antes ya en conjuntos tenia [0,1,2]
+		// El parametro que se envia a la funcion random funciona como tope, entonces el
+		// random es entre 0 y X
+		// De esta manera, obtendre los distintos conjuntos
+		for (int i = 0; i < (cantNodos - cantConjuntos); i++) {
+			int random = generadorRandoms.nextInt(cantConjuntos);
+			conjuntos.add(random);
+		}
+
+		// Ahora tengo que armar los pares de nodos
+		for (int i = 0; i < cantNodos - 1; i++) {
+			for (int j = i + 1; j < cantNodos; j++) {
+				// Si los dos nodos que agarre pertenecen a conjuntos distintos, entonces creo
+				// la arista
+				if (conjuntos.get(i) != conjuntos.get(j)) {
+
+					// Determino el sentido del nodo
+					if (i < j) {
+						arrParesDeNodos.add(new ParNodos(i, j));
+					} else {
+						arrParesDeNodos.add(new ParNodos(j, i));
+					}
+
+					// Incremento la cantidad de aristas
+					cantAristas++;
+				}
+			}
+		}
+
+		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
+		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
+		String path = PATH_SALIDA + "GRAFO_" + cantConjuntos + "PARTITO.txt";
+
+		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia, grados.getNodo1(),
+				grados.getNodo2());
+	}
 }
