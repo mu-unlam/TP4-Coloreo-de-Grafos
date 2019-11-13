@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import com.unlam.TP4.nodos.ParNodos;
+import com.unlam.TP4.nodos.RandomParNodos;
+
 public class GeneradorGrafos {
 	private final static String PATH_SALIDA = "../Grafos Generados/";
 
@@ -56,8 +59,8 @@ public class GeneradorGrafos {
 		String path = PATH_SALIDA + "GRAFO_ALEATORIO_PROBABILISTICO_" + cantNodos + "_" + probabilidadOcurrencia
 				+ ".txt";
 
-		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia, grados.getNodo1(),
-				grados.getNodo2());
+		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
+				grados.getNodo1().getGrado(), grados.getNodo2().getGrado());
 	}
 
 	/**
@@ -81,8 +84,8 @@ public class GeneradorGrafos {
 
 		// Voy calculando el grado de cada nodo
 		for (int i = 0; i < arrayAristas.size(); i++) {
-			grados[arrayAristas.get(i).getNodo1()] += 1;
-			grados[arrayAristas.get(i).getNodo2()] += 1;
+			grados[arrayAristas.get(i).getNodo1().getNroNodo()] += 1;
+			grados[arrayAristas.get(i).getNodo2().getNroNodo()] += 1;
 		}
 
 		// Ahora debo buscar el maximo y el minimo
@@ -190,8 +193,8 @@ public class GeneradorGrafos {
 		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
 		String path = PATH_SALIDA + "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + cantNodos + "_"
 				+ String.format("%.2f", porcentaje) + ".txt";
-		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentaje, grados.getNodo1(),
-				grados.getNodo2());
+		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentaje, grados.getNodo1().getGrado(),
+				grados.getNodo2().getGrado());
 	}
 
 	/**
@@ -262,7 +265,7 @@ public class GeneradorGrafos {
 		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
 		String path = PATH_SALIDA + "GRAFO_" + cantConjuntos + "PARTITO.txt";
 
-		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia, grados.getNodo1(),
-				grados.getNodo2());
+		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
+				grados.getNodo1().getGrado(), grados.getNodo2().getGrado());
 	}
 }

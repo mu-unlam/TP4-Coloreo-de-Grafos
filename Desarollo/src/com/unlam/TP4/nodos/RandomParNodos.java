@@ -1,4 +1,4 @@
-package com.unlam.TP4;
+package com.unlam.TP4.nodos;
 
 public class RandomParNodos implements Comparable<RandomParNodos> {
 	private ParNodos nodos;
