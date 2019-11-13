@@ -55,8 +55,8 @@ public class GeneradorGrafos {
 		// necesito
 		ParNodos grados = calcularGrado(arrParesDeNodos, cantNodos);
 		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
-		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PROBABILISTICO_" + cantNodos + "_" + probabilidadOcurrencia
-				+ ".txt";
+		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PROBABILISTICO_" + cantNodos + "_"
+				+ probabilidadOcurrencia + ".txt";
 
 		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
 				grados.getNodo1().getGrado(), grados.getNodo2().getGrado());
@@ -268,5 +268,97 @@ public class GeneradorGrafos {
 
 		escribirGrafoEnArchivo(path, arrParesDeNodos, cantNodos, cantAristas, porcentajeAdyacencia,
 				grados.getNodo1().getGrado(), grados.getNodo2().getGrado());
+	}
+
+	public static void generarGrafoRegularConGrado(int cantNodos, int grado) throws IOException {
+
+		// VALIDACIONES
+		if (cantNodos < grado + 1 && cantNodos * grado % 2 != 0) {
+			System.out.println(
+					"No se puede generar el grafo, la condicion es que CANT_NODOS >= GRADO + 1 y que CANT_NODOS * GRADO SEA PAR");
+			return;
+		}
+
+		if (cantNodos % 2 != 0 && grado % 2 != 0) {
+			System.out.println("No se puede generar un grafo de cantidad de nodos y grado impar");
+			return;
+		}
+
+		if (grado >= cantNodos) {
+			System.out.println("El grado no puede ser igual, o mayor a la cantidad de nodos");
+			return;
+		}
+
+		ArrayList<ParNodos> array = new ArrayList<ParNodos>();
+		int cantAristas = 0;
+		int gradoActual = 2;
+		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2;
+		int desplazamiento = 0;
+
+		int nodo1;
+		int nodo2;
+
+		// Genero una cruz en el grafo
+		if (grado % 2 != 0) {
+
+			for (int i = 0; i < cantNodos / 2; i++) {
+				nodo1 = i;
+				nodo2 = i + cantNodos / 2;
+
+				array.add(new ParNodos(new Nodo(nodo1), new Nodo(nodo2)));
+				cantAristas++;
+			}
+		}
+
+		if (grado > 1) {
+			int j = 0;
+			while (gradoActual <= grado) {
+				desplazamiento = gradoActual / 2;
+				j = 0;
+				for (int i = 0; i < cantNodos; i++) {
+					if (i + desplazamiento < cantNodos) {
+						nodo1 = i;
+						nodo2 = i + desplazamiento;
+						if (nodo1 < nodo2)
+							array.add(new ParNodos(new Nodo(nodo1), new Nodo(nodo2)));
+					} else {
+						if (i < j)
+							array.add(new ParNodos(new Nodo(i), new Nodo(j)));
+						else
+							array.add(new ParNodos(new Nodo(j), new Nodo(i)));
+						j++;
+					}
+					cantAristas++;
+				}
+				gradoActual += 2;
+			}
+		}
+
+		ParNodos grados = calcularGrado(array, cantNodos);
+		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
+
+		String path = "REGULAR_" + cantNodos + "_" + String.format("%.2f", porcentajeAdyacencia) + ".txt";
+
+		escribirGrafoEnArchivo(path, array, cantNodos, cantAristas, porcentajeAdyacencia, grados.getNodo1().getGrado(),
+				grados.getNodo2().getGrado());
+	}
+
+	public static void regularConPorcentajeAdyacencia(int cantNodos, double porcentaje) throws IOException {
+		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2;
+		int grado = (int) Math.ceil(((porcentaje * cantMaximaAristas) / (cantNodos / 2)));
+		double minimo = (double) (cantNodos / 2) / cantMaximaAristas;
+
+		if (porcentaje < minimo) {
+			System.out.println(
+					"El porcentaje de adyacencia ingresado es demasiado bajo para generar un grafo regular (el minimo es: "
+							+ String.format("%1.3f", minimo) + ")");
+			System.exit(1);
+		}
+		if (porcentaje > 1) {
+			System.out.println("El porcentaje de adyacencia ingresado es superior al 100%");
+			System.exit(1);
+		}
+
+		generarGrafoRegularConGrado(cantNodos, grado);
 	}
 }

@@ -13,6 +13,9 @@ public class Main {
 		 * modo 1 es para el caso de que se quieran ejecutar los distintos algoritmos de
 		 * coloreo
 		 */
+		
+		GeneradorGrafos.generarGrafoRegularConGrado(6, 3);
+		
 		int modoEjecucion = 1;
 		int[] valores = { 10, 100, 300, 600, 1000 };
 
