@@ -299,8 +299,9 @@ public class GeneradorGrafos {
 		int nodo2;
 
 		// Genero una cruz en el grafo
+		// Genera componentes aristas que no estan vinculadas entre ellas
+		// Si necesito un grafo de grado impar necesito que primero este con grado 1 antes de sumarle una cantidad par de grado a cada nodo
 		if (grado % 2 != 0) {
-
 			for (int i = 0; i < cantNodos / 2; i++) {
 				nodo1 = i;
 				nodo2 = i + cantNodos / 2;
@@ -315,6 +316,7 @@ public class GeneradorGrafos {
 			while (gradoActual <= grado) {
 				desplazamiento = gradoActual / 2;
 				j = 0;
+				//Cada pasada del for aumenta en 2 el grado de cada nodo
 				for (int i = 0; i < cantNodos; i++) {
 					if (i + desplazamiento < cantNodos) {
 						nodo1 = i;
@@ -322,6 +324,7 @@ public class GeneradorGrafos {
 						if (nodo1 < nodo2)
 							array.add(new ParNodos(new Nodo(nodo1), new Nodo(nodo2)));
 					} else {
+						//si entra aca es por que tiene que conectar un nodo final con de los primeros, con cual dependera del desplazamiento
 						if (i < j)
 							array.add(new ParNodos(new Nodo(i), new Nodo(j)));
 						else
@@ -345,6 +348,7 @@ public class GeneradorGrafos {
 
 	public static void regularConPorcentajeAdyacencia(int cantNodos, double porcentaje) throws IOException {
 		int cantMaximaAristas = (cantNodos * (cantNodos - 1)) / 2;
+		//Dado el porcentaje de adyacencia voy a calcular cuantas aristas va a tener mi grafo, si tiende al 100% la cantidad de aristas sera n-1.
 		int grado = (int) Math.ceil(((porcentaje * cantMaximaAristas) / (cantNodos / 2)));
 		double minimo = (double) (cantNodos / 2) / cantMaximaAristas;
 

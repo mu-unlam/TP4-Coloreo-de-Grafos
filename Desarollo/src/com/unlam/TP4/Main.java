@@ -13,9 +13,7 @@ public class Main {
 		 * modo 1 es para el caso de que se quieran ejecutar los distintos algoritmos de
 		 * coloreo
 		 */
-		
-		GeneradorGrafos.generarGrafoRegularConGrado(6, 3);
-		
+
 		int modoEjecucion = 1;
 		int[] valores = { 10, 100, 300, 600, 1000 };
 
@@ -24,6 +22,8 @@ public class Main {
 				GeneradorGrafos.generarGrafoAleatorioConProbabilidad(i, 0.6);
 				GeneradorGrafos.generarGrafoAleatorioConPorcentajeDeAdyacencia(i, 0.35);
 				GeneradorGrafos.generarGrafoNPartito(i, 5);
+				GeneradorGrafos.generarGrafoRegularConGrado(i, 6);
+				GeneradorGrafos.regularConPorcentajeAdyacencia(i, 0.6);
 			}
 		} else {
 			for (int i : valores) {
