@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 import com.unlam.TP4.nodos.Nodo;
 
-public class ColoreadorGrafos {
+public class GrafoNDNP {
 	private MatrizSimetrica grafo;
 	private int cantNodos;
 	private int cantAristas;
@@ -36,7 +36,7 @@ public class ColoreadorGrafos {
 	 * @param path
 	 * @throws FileNotFoundException
 	 */
-	public ColoreadorGrafos(String path) throws FileNotFoundException {
+	public GrafoNDNP(String path) throws FileNotFoundException {
 		File file = new File(path);
 		Scanner scan = new Scanner(file);
 		scan.useLocale(Locale.ENGLISH);
