@@ -59,6 +59,8 @@ public class ProbadorColoreo {
 			columna = scan.nextInt();
 			salida.add(new NodoPintado(fila, columna));
 		}
+		
+		scan.close();
 	}
 
 	public boolean probar() {

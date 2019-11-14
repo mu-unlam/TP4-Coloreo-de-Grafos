@@ -200,8 +200,6 @@ public class ColoreadorGrafos {
 
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
-		// Las mismas deberian ser locales para no tener que hacer esto
-		// TODO si queda tiempo
 		this.mejorColor = 0;
 		for (int i = 0; i < this.cantNodos; i++) {
 			this.mejoresColores[i] = 0;
@@ -262,8 +260,6 @@ public class ColoreadorGrafos {
 
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
-		// Las mismas deberian ser locales para no tener que hacer esto
-		// TODO si queda tiempo
 		this.mejorColor = 0;
 		for (int i = 0; i < this.cantNodos; i++) {
 			this.mejoresColores[i] = 0;
@@ -327,8 +323,6 @@ public class ColoreadorGrafos {
 
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
-		// Las mismas deberian ser locales para no tener que hacer esto
-		// TODO si queda tiempo
 		this.mejorColor = 0;
 		for (int i = 0; i < this.cantNodos; i++) {
 			this.mejoresColores[i] = 0;
