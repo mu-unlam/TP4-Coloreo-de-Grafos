@@ -39,7 +39,7 @@ public class GrafoNDNP {
 	public GrafoNDNP(String path) throws FileNotFoundException {
 		File file = new File(path);
 		Scanner scan = new Scanner(file);
-		scan.useLocale(Locale.ENGLISH);
+		//scan.useLocale(Locale.ENGLISH);
 		// Arranco escaneando la primer fila del archivo. Esto tiene variada
 		// informacion:
 		this.cantNodos = scan.nextInt();
@@ -168,7 +168,7 @@ public class GrafoNDNP {
 			this.escribirSolucion("ALGORITMO_SECUENCIAL");
 			return;
 		}
-
+System.out.println("coloreo");
 		for (int i = 0; i < cantEjecuciones; i++) {
 			// Permuto los nodos
 			Collections.shuffle(this.nodos);

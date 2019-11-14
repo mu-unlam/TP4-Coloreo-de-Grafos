@@ -342,8 +342,8 @@ public class GeneradorGrafos {
 		ParNodos grados = calcularGrado(array, cantNodos);
 		double porcentajeAdyacencia = (double) cantAristas / cantMaximaAristas;
 
-		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + cantNodos + "_" + String.format("%.2f", porcentajeAdyacencia)
-				+ ".txt";
+		String path = Main.PATH_SALIDA_GRAFOS_GENERADOS + "REGULAR_" + cantNodos + "_ADYACENCIA_"
+				+ String.format("%.2f", porcentajeAdyacencia) + ".txt";
 
 		escribirGrafoEnArchivo(path, array, cantNodos, cantAristas, porcentajeAdyacencia, grados.getNodo1().getGrado(),
 				grados.getNodo2().getGrado());
