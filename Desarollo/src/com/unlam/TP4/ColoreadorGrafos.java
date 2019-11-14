@@ -108,7 +108,7 @@ public class ColoreadorGrafos {
 		// Siempre arranco coloreando el primer nodo que tengo
 		nodosColoreados[this.nodos.get(0).getNroNodo()] = color;
 
-		// Ahora comienzo a hacer todo el procsamiento
+		// Ahora comienzo a hacer todo el procesamiento
 		// El primer nodo ya lo coloree, asi que lo salteo
 		for (int i = 1; i < this.cantNodos; i++) {
 			// Obtengo el valor del nodo (que en parte tambien es el indice)
