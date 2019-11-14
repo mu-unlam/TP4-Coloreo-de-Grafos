@@ -14,7 +14,7 @@ public class Main {
 		 * coloreo
 		 */
 
-		int modoEjecucion = 1;
+		int modoEjecucion = 2;
 		int[] valores = { 10, 100, 300, 600, 1000 };
 
 		if (modoEjecucion == 0) {
@@ -26,36 +26,56 @@ public class Main {
 				GeneradorGrafos.regularConPorcentajeAdyacencia(i, 0.6);
 			}
 		} else {
-			for (int i : valores) {
-				System.out.println(
-						"======================== INICIO VALOR" + String.valueOf(i) + " ===========================");
-				System.out.println("N-PARTITO");
-				ColoreadorGrafos grafo1 = new ColoreadorGrafos(
-						PATH_SALIDA_GRAFOS_GENERADOS + String.valueOf(i) + "_NODOS__GRAFO_5PARTITO.txt");
-				grafo1.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
-				grafo1.coloreoWelshPowell(CANTIDAD_CORRIDAS);
-				grafo1.coloreoMatula(CANTIDAD_CORRIDAS);
-				System.out.println("");
-				System.out.println("ALEATORIO CON PORCENTAJE DE ADYACENCIA");
+			if (modoEjecucion == 1) {
 
-				ColoreadorGrafos grafo2 = new ColoreadorGrafos(PATH_SALIDA_GRAFOS_GENERADOS
-						+ "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + String.valueOf(i) + "_0.35.txt");
-				grafo2.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
-				grafo2.coloreoWelshPowell(CANTIDAD_CORRIDAS);
-				grafo2.coloreoMatula(CANTIDAD_CORRIDAS);
-				System.out.println("");
-				System.out.println("ALEATORIO PROBABILISTICO");
-				ColoreadorGrafos grafo3 = new ColoreadorGrafos(PATH_SALIDA_GRAFOS_GENERADOS
-						+ "GRAFO_ALEATORIO_PROBABILISTICO_" + String.valueOf(i) + "_0.6.txt");
-				grafo3.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
-				grafo3.coloreoWelshPowell(CANTIDAD_CORRIDAS);
-				grafo3.coloreoMatula(CANTIDAD_CORRIDAS);
-				System.out.println("");
+				for (int i : valores) {
+					System.out.println("======================== INICIO VALOR" + String.valueOf(i)
+							+ " ===========================");
+					System.out.println("N-PARTITO");
+					ColoreadorGrafos grafo1 = new ColoreadorGrafos(
+							PATH_SALIDA_GRAFOS_GENERADOS + String.valueOf(i) + "_NODOS__GRAFO_5PARTITO.txt");
+					grafo1.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
+					grafo1.coloreoWelshPowell(CANTIDAD_CORRIDAS);
+					grafo1.coloreoMatula(CANTIDAD_CORRIDAS);
+					System.out.println("");
+					System.out.println("ALEATORIO CON PORCENTAJE DE ADYACENCIA");
 
-				System.out.println(
-						"======================== FIN VALOR" + String.valueOf(i) + " ===========================");
+					ColoreadorGrafos grafo2 = new ColoreadorGrafos(PATH_SALIDA_GRAFOS_GENERADOS
+							+ "GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + String.valueOf(i) + "_0.35.txt");
+					grafo2.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
+					grafo2.coloreoWelshPowell(CANTIDAD_CORRIDAS);
+					grafo2.coloreoMatula(CANTIDAD_CORRIDAS);
+					System.out.println("");
+					System.out.println("ALEATORIO PROBABILISTICO");
+					ColoreadorGrafos grafo3 = new ColoreadorGrafos(PATH_SALIDA_GRAFOS_GENERADOS
+							+ "GRAFO_ALEATORIO_PROBABILISTICO_" + String.valueOf(i) + "_0.6.txt");
+					grafo3.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
+					grafo3.coloreoWelshPowell(CANTIDAD_CORRIDAS);
+					grafo3.coloreoMatula(CANTIDAD_CORRIDAS);
+					System.out.println("");
+
+					System.out.println(
+							"======================== FIN VALOR" + String.valueOf(i) + " ===========================");
+				}
+
+			} else {
+
+				double[] porcentajes = { 0.50, 0.75 };
+
+				for (double porcentaje : porcentajes) {
+
+					long inicio = 0;
+					long tFinal = 0;
+					System.out.println("======================== INICIO" + " ===========================");
+					System.out.println("GRAFO REGULAR");
+					inicio = System.nanoTime();
+					GeneradorGrafos.regularConPorcentajeAdyacencia(1000, porcentaje);
+					tFinal = System.nanoTime() - inicio;
+
+					System.out.println("TIEMPO DE GRAFO REGULAR DE 1000, PORCENTAJE ADYACENCIA "
+							+ String.valueOf(porcentaje * 100) + "%" + ": " + tFinal + " ns.");
+				}
 			}
-
 		}
 	}
 
