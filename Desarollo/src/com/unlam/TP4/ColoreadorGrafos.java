@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Scanner;
 
 import com.unlam.TP4.nodos.Nodo;
@@ -38,7 +39,7 @@ public class ColoreadorGrafos {
 	public ColoreadorGrafos(String path) throws FileNotFoundException {
 		File file = new File(path);
 		Scanner scan = new Scanner(file);
-
+		scan.useLocale(Locale.ENGLISH);
 		// Arranco escaneando la primer fila del archivo. Esto tiene variada
 		// informacion:
 		this.cantNodos = scan.nextInt();
