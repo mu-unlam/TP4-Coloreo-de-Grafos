@@ -107,4 +107,15 @@ public class ProbadorColoreo {
 
 		return true;
 	}
+	
+	public void mostrarEntrada() {
+		for(int i = 0 ; i < this.entrada.size() ; i++) {
+			System.out.println(this.entrada.get(i).getNodo1() + " " + this.entrada.get(i).getNodo2());
+		}
+	}
+	
+	public void mostrarSalida() {
+		for(int i = 0 ; i < this.salida.size() ; i++)
+			System.out.println(this.salida.get(i).getNodo() + " " + this.salida.get(i).getColor());
+	}
 }
