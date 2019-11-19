@@ -27,11 +27,6 @@ public class RandomParNodos implements Comparable<RandomParNodos> {
 		return this.nodos.getNodo1() + " " + this.nodos.getNodo2() + " " + this.probabilidad;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo(RandomParNodos o) {
 		if (this.probabilidad > o.probabilidad)
