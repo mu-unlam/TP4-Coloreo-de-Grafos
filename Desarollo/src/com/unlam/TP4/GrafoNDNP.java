@@ -39,7 +39,7 @@ public class GrafoNDNP {
 	public GrafoNDNP(String path) throws FileNotFoundException {
 		File file = new File(path);
 		Scanner scan = new Scanner(file);
-		//scan.useLocale(Locale.ENGLISH);
+		// scan.useLocale(Locale.ENGLISH);
 		// Arranco escaneando la primer fila del archivo. Esto tiene variada
 		// informacion:
 		this.cantNodos = scan.nextInt();
@@ -168,11 +168,11 @@ public class GrafoNDNP {
 			this.escribirSolucion("ALGORITMO_SECUENCIAL");
 			return;
 		}
-System.out.println("coloreo");
+		System.out.println("coloreo");
 		for (int i = 0; i < cantEjecuciones; i++) {
 			// Permuto los nodos
 			Collections.shuffle(this.nodos);
-			
+
 			tiempoInicial = System.nanoTime();
 			// Llamo al nodo que asignara los colores
 			this.colorear();
@@ -198,6 +198,7 @@ System.out.println("coloreo");
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
 
+		this.escribirEstadistica("SECUENCIAL");
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
 		this.mejorColor = 0;
@@ -258,6 +259,7 @@ System.out.println("coloreo");
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
 
+		this.escribirEstadistica("ALGORITMO_WELSH_POWELL");
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
 		this.mejorColor = 0;
@@ -295,7 +297,7 @@ System.out.println("coloreo");
 					return nodo1.getGrado() - nodo2.getGrado();
 				}
 			});
-			
+
 			tiempoInicial = System.nanoTime();
 			// Llamo al nodo que asignara los colores
 			this.colorear();
@@ -320,7 +322,7 @@ System.out.println("coloreo");
 		System.out.print("MATULA_MARBLE_ISAACSON\t");
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
-
+		this.escribirEstadistica("ALGORITMO_MATULA_MARBLE_ISAACSON");
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
 		this.mejorColor = 0;
@@ -335,8 +337,8 @@ System.out.println("coloreo");
 	 * @throws IOException
 	 */
 	private void escribirSolucion(String algoritmoElegido) throws IOException {
-		FileWriter file = new FileWriter(Main.PATH_SALIDA_GRAFOS_COLOREADOS + "COLOREO" + "_" + algoritmoElegido + "_" + this.cantNodos
-				+ "_" + String.format("%.2f", this.porcentajeAdyacencia) + ".out");
+		FileWriter file = new FileWriter(Main.PATH_SALIDA_GRAFOS_COLOREADOS + "COLOREO" + "_" + algoritmoElegido + "_"
+				+ this.cantNodos + "_" + String.format("%.2f", this.porcentajeAdyacencia) + ".out");
 		BufferedWriter buffer = new BufferedWriter(file);
 
 		buffer.write(String.valueOf(this.cantNodos));
@@ -356,6 +358,21 @@ System.out.println("coloreo");
 			buffer.write(String.valueOf(i));
 			buffer.write(" ");
 			buffer.write(String.valueOf(this.solucion[i]));
+			buffer.newLine();
+		}
+
+		buffer.close();
+	}
+
+	private void escribirEstadistica(String algoritmo) throws IOException {
+		FileWriter file = new FileWriter("VECTOR" + "_" + algoritmo + "_" + this.cantNodos + "_"
+				+ String.format("%.2f", this.porcentajeAdyacencia) + ".out");
+		BufferedWriter buffer = new BufferedWriter(file);
+
+		for (int i = 0; i < this.cantNodos; i++) {
+			buffer.write(String.valueOf(i + 1));
+			buffer.write(" ");
+			buffer.write(String.valueOf(this.mejoresColores[i]));
 			buffer.newLine();
 		}
 
