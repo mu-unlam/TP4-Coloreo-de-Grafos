@@ -1,13 +1,13 @@
 package com.unlam.TP4;
 
 import java.io.IOException;
-
-import com.unlam.TP4.probador.ProbadorColoreo;
+import java.util.Locale;
 
 public class Main {
 	public final static String PATH_SALIDA_GRAFOS_GENERADOS = "../Grafos Generados/";
 	public final static String PATH_SALIDA_GRAFOS_COLOREADOS = "../Grafos coloreados/";
 	private static final int CANTIDAD_CORRIDAS = 10000;
+	public static final String PATH_SALIDA_RESULTADOS = "../Resultados/";
 
 	public static void main(String[] args) throws IOException {
 		/**
@@ -21,7 +21,7 @@ public class Main {
 		double[] adyacencia = { 0.4, 0.6, 0.9 };
 		double[] adyacenciaRegular = { 0.5, 0.75 };
 		int valorEvaluacionRegular = 1000;
-
+		Locale.setDefault(Locale.ENGLISH);
 		if (modoEjecucion == 0) {
 
 			// Genero los aleatorios
@@ -45,14 +45,22 @@ public class Main {
 				grafo2.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
 				grafo2.coloreoWelshPowell(CANTIDAD_CORRIDAS);
 				grafo2.coloreoMatula(CANTIDAD_CORRIDAS);
+				grafo2.escribirResultados(
+						"GRAFO_ALEATORIO_PORCENTAJE_ADYACENCIA_" + valorEvaluacion + "_" + String.valueOf(i));
+
 				System.out.println("");
-				System.out.println("ALEATORIO PROBABILISTICO");
-				GrafoNDNP grafo3 = new GrafoNDNP(PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PROBABILISTICO_"
-						+ valorEvaluacion + "_" + String.valueOf(i) + ".txt");
-				grafo3.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
-				grafo3.coloreoWelshPowell(CANTIDAD_CORRIDAS);
-				grafo3.coloreoMatula(CANTIDAD_CORRIDAS);
-				System.out.println("");
+				/*
+				 * System.out.println("ALEATORIO PROBABILISTICO"); GrafoNDNP grafo3 = new
+				 * GrafoNDNP(PATH_SALIDA_GRAFOS_GENERADOS + "GRAFO_ALEATORIO_PROBABILISTICO_" +
+				 * valorEvaluacion + "_" + String.valueOf(i) + ".txt");
+				 * grafo3.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
+				 * grafo3.coloreoWelshPowell(CANTIDAD_CORRIDAS);
+				 * grafo3.coloreoMatula(CANTIDAD_CORRIDAS); grafo3.escribirResultados(
+				 * "GRAFO_ALEATORIO_PROBABILISTICO_" + valorEvaluacion + "_" +
+				 * String.valueOf(i));
+				 * 
+				 * System.out.println("");
+				 */
 
 				System.out.println("======================== FIN VALOR ADYACENCIA" + String.valueOf(i)
 						+ " ===========================");
@@ -63,17 +71,12 @@ public class Main {
 						+ " ===========================");
 				System.out.println("ALEATORIO CON PORCENTAJE DE ADYACENCIA");
 				GrafoNDNP grafo2 = new GrafoNDNP(PATH_SALIDA_GRAFOS_GENERADOS + "REGULAR_" + valorEvaluacionRegular
-						+ "_ADYENCIA_" + String.format("%.2f", adyacenciaRegular) + ".txt");
+						+ "_ADYACENCIA_" + String.format("%.2f", i) + ".txt");
 				grafo2.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
 				grafo2.coloreoWelshPowell(CANTIDAD_CORRIDAS);
 				grafo2.coloreoMatula(CANTIDAD_CORRIDAS);
-				System.out.println("");
-				System.out.println("ALEATORIO PROBABILISTICO");
-				GrafoNDNP grafo3 = new GrafoNDNP(PATH_SALIDA_GRAFOS_GENERADOS + "REGULAR_" + valorEvaluacionRegular
-						+ "_ADYENCIA_" + String.format("%.2f", adyacenciaRegular) + ".txt");
-				grafo3.coloreoSecuencialAleatorio(CANTIDAD_CORRIDAS);
-				grafo3.coloreoWelshPowell(CANTIDAD_CORRIDAS);
-				grafo3.coloreoMatula(CANTIDAD_CORRIDAS);
+				grafo2.escribirResultados(
+						"REGULAR_" + valorEvaluacionRegular + "_ADYACENCIA_" + String.format("%.2f", i));
 				System.out.println("");
 
 				System.out.println("======================== FIN VALOR ADYACENCIA" + String.valueOf(i)

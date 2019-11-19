@@ -25,9 +25,11 @@ public class GrafoNDNP {
 	private double porcentajeAdyacencia;
 	private ArrayList<Nodo> nodos;
 	private int[] solucion;
-	private int[] mejoresColores;
+	private int[][] mejoresColores;
 	private int[] nodosColoreados;
 	private int[] gradosNodos;
+	private int[][] ejecuciones;
+	private int cantEjecuciones;
 
 	/**
 	 * El constructor toma un path para levantar el grafo y realizar el
@@ -39,6 +41,8 @@ public class GrafoNDNP {
 	public GrafoNDNP(String path) throws FileNotFoundException {
 		File file = new File(path);
 		Scanner scan = new Scanner(file);
+		scan.useLocale(Locale.ENGLISH);
+
 		// scan.useLocale(Locale.ENGLISH);
 		// Arranco escaneando la primer fila del archivo. Esto tiene variada
 		// informacion:
@@ -60,12 +64,14 @@ public class GrafoNDNP {
 		nodosColoreados = new int[this.cantNodos];
 		gradosNodos = new int[this.cantNodos];
 		solucion = new int[this.cantNodos];
-		mejoresColores = new int[this.cantNodos];
-
+		mejoresColores = new int[this.cantNodos][3];
+		ejecuciones = new int[10000][3];
 		// Inicializo los vectores
 		for (int i = 0; i < this.cantNodos; i++) {
 			gradosNodos[i] = 0;
-			mejoresColores[i] = 0;
+			mejoresColores[i][0] = 0;
+			mejoresColores[i][1] = 0;
+			mejoresColores[i][2] = 0;
 		}
 
 		// Voy levantando las aristas del archivo y creo los pares
@@ -162,7 +168,7 @@ public class GrafoNDNP {
 	public void coloreoSecuencialAleatorio(int cantEjecuciones) throws IOException {
 		int nroCorrida = 0;
 		long tiempoInicial = 0, tiempoFinal = 0;
-
+		this.cantEjecuciones = cantEjecuciones;
 		// Si no tengo nodos, debo salir. No hay nada que evaluar.
 		if (this.nodos.size() == 0) {
 			this.escribirSolucion("ALGORITMO_SECUENCIAL");
@@ -189,7 +195,8 @@ public class GrafoNDNP {
 
 			// En este vector, voy seteando en cada indice lo que mas se repite
 			// Sirve para el analisis estadistico
-			this.mejoresColores[this.colorMax - 1]++;
+			this.mejoresColores[this.colorMax - 1][0]++;
+			this.ejecuciones[i][0] = this.colorMax - 1;
 		}
 
 		// Paso a la ultima etapa, donde escribo el archivo
@@ -198,13 +205,6 @@ public class GrafoNDNP {
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
 
-		this.escribirEstadistica("SECUENCIAL");
-		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
-		// variables
-		this.mejorColor = 0;
-		for (int i = 0; i < this.cantNodos; i++) {
-			this.mejoresColores[i] = 0;
-		}
 	}
 
 	/**
@@ -226,6 +226,9 @@ public class GrafoNDNP {
 		}
 
 		for (int i = 0; i < cantEjecuciones; i++) {
+			// Permuto los nodos
+			Collections.shuffle(this.nodos);
+			
 			// Ordeno los nodos de menor a mayor
 			Collections.sort(this.nodos, new Comparator<Nodo>() {
 				@Override
@@ -250,7 +253,8 @@ public class GrafoNDNP {
 
 			// En este vector, voy seteando en cada indice lo que mas se repite
 			// Sirve para el analisis estadistico
-			this.mejoresColores[this.colorMax - 1]++;
+			this.mejoresColores[this.colorMax - 1][1]++;
+			this.ejecuciones[i][1] = this.colorMax - 1;
 		}
 
 		// Paso a la ultima etapa, donde escribo el archivo
@@ -259,13 +263,6 @@ public class GrafoNDNP {
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
 
-		this.escribirEstadistica("ALGORITMO_WELSH_POWELL");
-		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
-		// variables
-		this.mejorColor = 0;
-		for (int i = 0; i < this.cantNodos; i++) {
-			this.mejoresColores[i] = 0;
-		}
 	}
 
 	/**
@@ -290,6 +287,9 @@ public class GrafoNDNP {
 		}
 
 		for (int i = 0; i < cantEjecuciones; i++) {
+			// Permuto los nodos
+			Collections.shuffle(this.nodos);
+			
 			// Ordeno los nodos de mayor a menor
 			Collections.sort(this.nodos, new Comparator<Nodo>() {
 				@Override
@@ -314,7 +314,8 @@ public class GrafoNDNP {
 
 			// En este vector, voy seteando en cada indice lo que mas se repite
 			// Sirve para el analisis estadistico
-			this.mejoresColores[this.colorMax - 1]++;
+			this.mejoresColores[this.colorMax - 1][2]++;
+			this.ejecuciones[i][2] = this.colorMax - 1;
 		}
 
 		// Paso a la ultima etapa, donde escribo el archivo
@@ -322,13 +323,9 @@ public class GrafoNDNP {
 		System.out.print("MATULA_MARBLE_ISAACSON\t");
 		System.out.println("Menor cantidad de colores: " + this.mejorColor + " en la iteración: " + nroCorrida + " ("
 				+ String.valueOf(tiempoFinal - tiempoInicial) + " ns.)");
-		this.escribirEstadistica("ALGORITMO_MATULA_MARBLE_ISAACSON");
 		// Antes de continuar con otro metodo, resulta menester limpiar las distintas
 		// variables
-		this.mejorColor = 0;
-		for (int i = 0; i < this.cantNodos; i++) {
-			this.mejoresColores[i] = 0;
-		}
+
 	}
 
 	/**
@@ -364,16 +361,29 @@ public class GrafoNDNP {
 		buffer.close();
 	}
 
-	private void escribirEstadistica(String algoritmo) throws IOException {
-		FileWriter file = new FileWriter("VECTOR" + "_" + algoritmo + "_" + this.cantNodos + "_"
-				+ String.format("%.2f", this.porcentajeAdyacencia) + ".out");
+	public void escribirResultados(String parte) throws IOException {
+		FileWriter file = new FileWriter(Main.PATH_SALIDA_RESULTADOS + parte + "RESULTADOS" + "_" + this.cantNodos + "_"
+				+ porcentajeAdyacencia + ".out");
 		BufferedWriter buffer = new BufferedWriter(file);
+		buffer.write("NUMERO DE EJECUCION ");
+		buffer.write("SECUENCIAL ");
+		buffer.write("WP ");
+		buffer.write("MATULA ");
+		buffer.newLine();
 
 		for (int i = 0; i < this.cantNodos; i++) {
-			buffer.write(String.valueOf(i + 1));
-			buffer.write(" ");
-			buffer.write(String.valueOf(this.mejoresColores[i]));
-			buffer.newLine();
+			if (this.mejoresColores[i][0] == 0 && this.mejoresColores[i][1] == 0 && this.mejoresColores[i][2] == 0)
+				continue;
+			else {
+				buffer.write(String.valueOf(i + 1));
+				buffer.write(" ");
+				for (int j = 0; j < 3; j++) {
+					buffer.write(String.valueOf(this.mejoresColores[i][j]));
+					buffer.write(" ");
+				}
+
+				buffer.newLine();
+			}
 		}
 
 		buffer.close();

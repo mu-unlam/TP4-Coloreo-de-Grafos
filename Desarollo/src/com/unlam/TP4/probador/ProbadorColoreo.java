@@ -3,6 +3,7 @@ package com.unlam.TP4.probador;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 import com.unlam.TP4.nodos.Nodo;
@@ -18,6 +19,7 @@ public class ProbadorColoreo {
 	public ProbadorColoreo(String pathEntrada, String pathSalida) throws FileNotFoundException {
 		File fArchivo = new File(pathEntrada);
 		Scanner scan = new Scanner(fArchivo);
+		scan.useLocale(Locale.ENGLISH);
 
 		this.entrada = new ArrayList<ParNodos>();
 		this.salida = new ArrayList<NodoPintado>();
