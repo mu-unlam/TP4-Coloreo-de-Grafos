@@ -61,7 +61,7 @@ public class ProbadorColoreo {
 			columna = scan.nextInt();
 			salida.add(new NodoPintado(fila, columna));
 		}
-		
+
 		scan.close();
 	}
 
@@ -76,14 +76,16 @@ public class ProbadorColoreo {
 		boolean color1Pintado = false;
 		boolean color2Pintado = false;
 
+		// Tomo dos nodos de la entrada
 		for (int i = 0; i < this.entrada.size(); i++) {
 			nodo1 = this.entrada.get(i).getNodo1().getNroNodo();
 			nodo2 = this.entrada.get(i).getNodo2().getNroNodo();
 
+			// Tomo un nodo coloreado
 			for (int j = 0; j < this.salida.size(); j++) {
 				nodoColoreado = this.salida.get(j).getNodo();
 
-				// Si es el mismo nodo y no esta pintado
+				// Si es el mismo nodo y si todavia no lo pinte, lo pinto
 				if (nodoColoreado == nodo1 && !color1Pintado) {
 					color1 = nodoColoreado;
 					color1Pintado = true;
@@ -93,14 +95,14 @@ public class ProbadorColoreo {
 						color2Pintado = true;
 					}
 				}
-
+				// Si ambos ya fueron pintados
 				if (color2Pintado && color1Pintado) {
-					if (color1 == color2 || (nodoColoreado == nodo1 && nodoColoreado == nodo2))// Si son adyacentes es
+					if (color1 == color2 || (nodoColoreado == nodo1 && nodoColoreado == nodo2))// Si son el mismo nodo
 						return false;
 				}
 
 			}
-			// alguno no pintado
+			// alguno quedo sin pintar
 			if (!color2Pintado || !color2Pintado) {
 				return false;
 			}
@@ -111,15 +113,16 @@ public class ProbadorColoreo {
 
 		return true;
 	}
-	
+
 	public void mostrarEntrada() {
-		for(int i = 0 ; i < this.entrada.size() ; i++) {
-			System.out.println(this.entrada.get(i).getNodo1().getNroNodo() + " " + this.entrada.get(i).getNodo2().getNroNodo());
+		for (int i = 0; i < this.entrada.size(); i++) {
+			System.out.println(
+					this.entrada.get(i).getNodo1().getNroNodo() + " " + this.entrada.get(i).getNodo2().getNroNodo());
 		}
 	}
-	
+
 	public void mostrarSalida() {
-		for(int i = 0 ; i < this.salida.size() ; i++)
+		for (int i = 0; i < this.salida.size(); i++)
 			System.out.println(this.salida.get(i).getNodo() + " " + this.salida.get(i).getColor());
 	}
 }

@@ -29,7 +29,6 @@ public class GrafoNDNP {
 	private int[] nodosColoreados;
 	private int[] gradosNodos;
 	private int[][] ejecuciones;
-	private int cantEjecuciones;
 
 	/**
 	 * El constructor toma un path para levantar el grafo y realizar el
@@ -168,7 +167,6 @@ public class GrafoNDNP {
 	public void coloreoSecuencialAleatorio(int cantEjecuciones) throws IOException {
 		int nroCorrida = 0;
 		long tiempoInicial = 0, tiempoFinal = 0;
-		this.cantEjecuciones = cantEjecuciones;
 		// Si no tengo nodos, debo salir. No hay nada que evaluar.
 		if (this.nodos.size() == 0) {
 			this.escribirSolucion("ALGORITMO_SECUENCIAL");
@@ -228,7 +226,7 @@ public class GrafoNDNP {
 		for (int i = 0; i < cantEjecuciones; i++) {
 			// Permuto los nodos
 			Collections.shuffle(this.nodos);
-			
+
 			// Ordeno los nodos de menor a mayor
 			Collections.sort(this.nodos, new Comparator<Nodo>() {
 				@Override
@@ -289,7 +287,7 @@ public class GrafoNDNP {
 		for (int i = 0; i < cantEjecuciones; i++) {
 			// Permuto los nodos
 			Collections.shuffle(this.nodos);
-			
+
 			// Ordeno los nodos de mayor a menor
 			Collections.sort(this.nodos, new Comparator<Nodo>() {
 				@Override

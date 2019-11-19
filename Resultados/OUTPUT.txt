@@ -1,0 +1,35 @@
+======================== INICIO VALOR ADYACENCIA 0.4 ===========================
+ALEATORIO CON PORCENTAJE DE ADYACENCIA
+coloreo
+SECUENCIAL  Menor cantidad de colores: 63 en la iteración: 13 (34900900 ns.)
+WELSH_POWELL    Menor cantidad de colores: 60 en la iteración: 6370 (35712900 ns.)
+MATULA_MARBLE_ISAACSON  Menor cantidad de colores: 60 en la iteración: 0 (34321500 ns.)
+
+======================== FIN VALOR ADYACENCIA0.4 ===========================
+======================== INICIO VALOR ADYACENCIA 0.6 ===========================
+ALEATORIO CON PORCENTAJE DE ADYACENCIA
+coloreo
+SECUENCIAL  Menor cantidad de colores: 98 en la iteración: 2364 (53576300 ns.)
+WELSH_POWELL    Menor cantidad de colores: 95 en la iteración: 2077 (55996700 ns.)
+MATULA_MARBLE_ISAACSON  Menor cantidad de colores: 95 en la iteración: 0 (55200200 ns.)
+
+======================== FIN VALOR ADYACENCIA0.6 ===========================
+======================== INICIO VALOR ADYACENCIA 0.9 ===========================
+ALEATORIO CON PORCENTAJE DE ADYACENCIA
+coloreo
+SECUENCIAL  Menor cantidad de colores: 197 en la iteración: 8357 (79510400 ns.)
+WELSH_POWELL    Menor cantidad de colores: 192 en la iteración: 1255 (86282500 ns.)
+MATULA_MARBLE_ISAACSON  Menor cantidad de colores: 192 en la iteración: 0 (78788900 ns.)
+
+======================== FIN VALOR ADYACENCIA0.9 ===========================
+======================== INICIO VALOR ADYACENCIA 0.5 ===========================
+ALEATORIO CON PORCENTAJE DE ADYACENCIA
+coloreo
+SECUENCIAL  Menor cantidad de colores: 334 en la iteración: 1073 (649670000 ns.)
+WELSH_POWELL    Menor cantidad de colores: 334 en la iteración: 0 (445334100 ns.)
+MATULA_MARBLE_ISAACSON  Menor cantidad de colores: 334 en la iteración: 0 (476442400 ns.)
+
+======================== FIN VALOR ADYACENCIA0.5 ===========================
+======================== INICIO VALOR ADYACENCIA 0.75 ===========================
+ALEATORIO CON PORCENTAJE DE ADYACENCIA
+coloreo

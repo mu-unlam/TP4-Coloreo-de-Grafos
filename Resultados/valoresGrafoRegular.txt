@@ -1,8 +1,0 @@
-======================== INICIO ===========================
-GRAFO REGULAR
-
-TIEMPO DE GRAFO REGULAR DE 1000, PORCENTAJE ADYACENCIA 50.0%: 367808900 ns.
-======================== INICIO ===========================
-GRAFO REGULAR
-
-TIEMPO DE GRAFO REGULAR DE 1000, PORCENTAJE ADYACENCIA 75.0%: 441392500 ns.
