@@ -1,4 +1,4 @@
-======================== INICIO VALOR ADYACENCIA 0.4 ===========================
+﻿======================== INICIO VALOR ADYACENCIA 0.4 ===========================
 ALEATORIO CON PORCENTAJE DE ADYACENCIA
 coloreo
 SECUENCIAL  Menor cantidad de colores: 63 en la iteración: 13 (34900900 ns.)
@@ -33,3 +33,5 @@ MATULA_MARBLE_ISAACSON  Menor cantidad de colores: 334 en la iteración: 0 (4764
 ======================== INICIO VALOR ADYACENCIA 0.75 ===========================
 ALEATORIO CON PORCENTAJE DE ADYACENCIA
 coloreo
+SECUENCIAL	Menor cantidad de colores: 500 en la iteración: 9 (612195328 ns.)
+WELSH_POWELL	Menor cantidad de colores: 500 en la iteración: 0 (619550306 ns.)
